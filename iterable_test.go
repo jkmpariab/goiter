@@ -40,9 +40,9 @@ func TestIterableMap(t *testing.T) {
 
 	i := 0
 	iterable.Map(func(v interface{}) interface{} {
-		item := v.(int)
-		item *= 2
-		return item
+		n := v.(int)
+		n *= 2
+		return n
 	}).ForEach(func(v interface{}) {
 		if expectedNums[i] != v.(int) {
 			t.Errorf("expected: %d, got: %d\n", expectedNums[i], v.(int))
@@ -63,9 +63,9 @@ func TestIterableMapString(t *testing.T) {
 
 	i := 0
 	iterable.Map(func(v interface{}) interface{} {
-		item := v.(int)
-		item *= 2
-		return strconv.Itoa(item)
+		n := v.(int)
+		n *= 2
+		return strconv.Itoa(n)
 	}).ForEach(func(v interface{}) {
 		if expectedStrings[i] != v.(string) {
 			t.Errorf("expected: %q, got: %q\n", expectedStrings[i], v.(string))
@@ -86,8 +86,8 @@ func TestIterableFilter(t *testing.T) {
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
-		item := v.(int)
-		return item%2 != 0 // filter odd numbers
+		n := v.(int)
+		return n%2 != 0 // filter odd numbers
 	}).ForEach(func(v interface{}) {
 		if expectedNums[i] != v.(int) {
 			t.Errorf("expected: %d, got: %d\n", expectedNums[i], v.(int))
@@ -108,12 +108,12 @@ func TestIterableFilterAndMap(t *testing.T) {
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
-		item := v.(int)
-		return item%2 != 0
+		n := v.(int)
+		return n%2 != 0
 	}).Map(func(v interface{}) interface{} {
-		item := v.(int)
-		item *= 2
-		return item
+		n := v.(int)
+		n *= 2
+		return n
 	}).ForEach(func(v interface{}) {
 		if expectedNums[i] != v.(int) {
 			t.Errorf("expected: %d, got: %d\n", expectedNums[i], v.(int))
@@ -134,15 +134,56 @@ func TestIterableFilterAndMapString(t *testing.T) {
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
-		item := v.(int)
-		return item%2 != 0
+		n := v.(int)
+		return n%2 != 0
 	}).Map(func(v interface{}) interface{} {
-		item := v.(int)
-		item *= 2
-		return strconv.Itoa(item)
+		n := v.(int)
+		n *= 2
+		return strconv.Itoa(n)
 	}).ForEach(func(v interface{}) {
 		if expectedStrings[i] != v.(string) {
 			t.Errorf("expected: %q, got: %q\n", expectedStrings[i], v.(string))
+		}
+
+		i++
+	})
+}
+
+func TestIterableWhile(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	expectedNums := []int{1, 2, 3, 4, 5}
+
+	v := Vector(nums)
+	iterator := v.Iter()
+
+	iterable := iter.NewIterable(iterator)
+
+	i := 0
+	iterable.While(func(v interface{}) bool {
+		n := v.(int)
+		return n <= 5
+	}).ForEach(func(v interface{}) {
+		if expectedNums[i] != v.(int) {
+			t.Errorf("expected: %d, got: %d\n", expectedNums[i], v.(int))
+		}
+
+		i++
+	})
+}
+
+func TestIterableSkip(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	expectedNums := []int{6, 7, 8, 9}
+
+	v := Vector(nums)
+	iterator := v.Iter()
+
+	iterable := iter.NewIterable(iterator)
+
+	i := 0
+	iterable.Skip(5).ForEach(func(v interface{}) {
+		if expectedNums[i] != v.(int) {
+			t.Errorf("expected: %d, got: %d\n", expectedNums[i], v.(int))
 		}
 
 		i++

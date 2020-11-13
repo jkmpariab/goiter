@@ -25,38 +25,59 @@ func (vi *VectorIter) Next() (next interface{}, has bool) {
 	return
 }
 
-func TestIterator(t *testing.T) {
+func TestForEach(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	v := Vector(nums)
 	iterator := v.Iter()
 
-	m := iter.Map(iterator, func(v interface{}) interface{} {
-		item := v.(int)
-		item *= 2
-		return item
-	})
+	i := 0
+	iter.ForEach(iterator, func(v interface{}) {
+		if v.(int) != nums[i] {
+			t.Errorf("expected: %d, got: %d\n", nums[i], v.(int))
+		}
 
-	for i, v := range iter.Collect(m) {
-		if nums[i]*2 != v.(int) {
-			t.Errorf("expected: %d*2, got: %d\n", nums[i], v.(int))
+		i++
+	})
+}
+
+func TestCollect(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	v := Vector(nums)
+	iterator := v.Iter()
+
+	for i, v := range iter.Collect(iterator) {
+		if v.(int) != nums[i] {
+			t.Errorf("expected: %d, got: %d\n", nums[i], v.(int))
 		}
 	}
 }
 
-func TestIteratorFilter(t *testing.T) {
+func TestAny(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	expected := []int{6, 7, 8, 9}
-
 	v := Vector(nums)
+	iterator := v.Iter()
 
-	iterator := v.Iter() // VectorIter{ &v, 0 }
+	any := iter.Any(iterator, func(v interface{}) bool {
+		n := v.(int)
+		return n == 5
+	})
 
-	filterIterator := iter.Filter(iterator, func(v interface{}) bool { return v.(int) > 5 }) // filterIterator{ iterator, func(..) bool {...} }
+	if !any {
+		t.Errorf("expected any '5' in slice []int{1, 2, 3, 4, 5, 6, 7, 8, 9}\n")
+	}
+}
 
-	// ForEach(filterIterator, func(v interface{}) { fmt.Printf("[TestIteratorFilter] %v\n", v) }) // consume iterator
-	for i, v := range iter.Collect(filterIterator) {
-		if v.(int) != expected[i] {
-			t.Errorf("expected: %d, got: %d\n", expected[i], v.(int))
-		}
+func TestAll(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	v := Vector(nums)
+	iterator := v.Iter()
+
+	all := iter.All(iterator, func(v interface{}) bool {
+		n := v.(int)
+		return n > 0 && n < 10
+	})
+
+	if !all {
+		t.Errorf("expected all values in slice []int{1, 2, 3, 4, 5, 6, 7, 8, 9} are greater than '0' and less than '10'\n")
 	}
 }
