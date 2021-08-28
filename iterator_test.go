@@ -6,29 +6,32 @@ import (
 	"github.com/jkmpariab/iter"
 )
 
-type Vector []int
-type VectorIter struct {
-	vector *Vector
-	index  int
+func SliceIterator(slc []int) *sliceIter {
+	return &sliceIter{slc: slc}
 }
 
-func (v *Vector) Iter() iter.Iterator {
-	return &VectorIter{v, 0}
+type sliceIter struct {
+	slc   []int
+	index int
+	nv    int
 }
 
-func (vi *VectorIter) Next() (next interface{}, has bool) {
-	if vi.index < len(*vi.vector) {
-		next = ([]int)(*vi.vector)[vi.index]
-		has = true
+func (si *sliceIter) Next() (hasNext bool) {
+	if si.index < len(si.slc) {
+		si.nv = si.slc[si.index]
+		hasNext = true
 	}
-	vi.index++
+	si.index++
 	return
+}
+
+func (vi *sliceIter) Value() interface{} {
+	return vi.nv
 }
 
 func TestForEach(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	v := Vector(nums)
-	iterator := v.Iter()
+	iterator := SliceIterator(nums)
 
 	i := 0
 	iter.ForEach(iterator, func(v interface{}) {
@@ -42,8 +45,7 @@ func TestForEach(t *testing.T) {
 
 func TestCollect(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	v := Vector(nums)
-	iterator := v.Iter()
+	iterator := SliceIterator(nums)
 
 	for i, v := range iter.Collect(iterator) {
 		if v.(int) != nums[i] {
@@ -54,8 +56,7 @@ func TestCollect(t *testing.T) {
 
 func TestAny(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	v := Vector(nums)
-	iterator := v.Iter()
+	iterator := SliceIterator(nums)
 
 	any := iter.Any(iterator, func(v interface{}) bool {
 		n := v.(int)
@@ -69,8 +70,7 @@ func TestAny(t *testing.T) {
 
 func TestAll(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	v := Vector(nums)
-	iterator := v.Iter()
+	iterator := SliceIterator(nums)
 
 	all := iter.All(iterator, func(v interface{}) bool {
 		n := v.(int)

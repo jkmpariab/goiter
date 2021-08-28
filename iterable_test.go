@@ -33,9 +33,7 @@ func TestIterableMap(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedNums := []int{2, 4, 6, 8, 10, 12, 14, 16, 18}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -56,9 +54,7 @@ func TestIterableMapString(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedStrings := []string{"2", "4", "6", "8", "10", "12", "14", "16", "18"}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -79,9 +75,7 @@ func TestIterableFilter(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedNums := []int{1, 3, 5, 7, 9}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -101,9 +95,7 @@ func TestIterableFilterAndMap(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedNums := []int{2, 6, 10, 14, 18}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -127,9 +119,7 @@ func TestIterableFilterAndMapString(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedStrings := []string{"2", "6", "10", "14", "18"}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -153,9 +143,7 @@ func TestIterableWhile(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedNums := []int{1, 2, 3, 4, 5}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
@@ -175,9 +163,7 @@ func TestIterableSkip(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	expectedNums := []int{6, 7, 8, 9}
 
-	v := Vector(nums)
-	iterator := v.Iter()
-
+	iterator := SliceIterator(nums)
 	iterable := iter.NewIterable(iterator)
 
 	i := 0
