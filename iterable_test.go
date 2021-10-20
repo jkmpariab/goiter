@@ -1,10 +1,10 @@
-package iter_test
+package goiter_test
 
 import (
 	"strconv"
 	"testing"
 
-	"github.com/jkmpariab/iter"
+	"github.com/jkmpariab/goiter"
 )
 
 // //
@@ -16,7 +16,7 @@ import (
 // 	index  int
 // }
 //
-// func (v *Vector) Iter() iter.Iterator {
+// func (v *Vector) Iter() goiter.Iterator {
 // 	return &VectorIter{v, 0}
 // }
 //
@@ -34,7 +34,7 @@ func TestIterableMap(t *testing.T) {
 	expectedNums := []int{2, 4, 6, 8, 10, 12, 14, 16, 18}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Map(func(v interface{}) interface{} {
@@ -55,7 +55,7 @@ func TestIterableMapString(t *testing.T) {
 	expectedStrings := []string{"2", "4", "6", "8", "10", "12", "14", "16", "18"}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Map(func(v interface{}) interface{} {
@@ -76,7 +76,7 @@ func TestIterableFilter(t *testing.T) {
 	expectedNums := []int{1, 3, 5, 7, 9}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
@@ -96,7 +96,7 @@ func TestIterableFilterAndMap(t *testing.T) {
 	expectedNums := []int{2, 6, 10, 14, 18}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
@@ -120,7 +120,7 @@ func TestIterableFilterAndMapString(t *testing.T) {
 	expectedStrings := []string{"2", "6", "10", "14", "18"}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Filter(func(v interface{}) bool {
@@ -144,7 +144,7 @@ func TestIterableWhile(t *testing.T) {
 	expectedNums := []int{1, 2, 3, 4, 5}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.While(func(v interface{}) bool {
@@ -164,7 +164,7 @@ func TestIterableSkip(t *testing.T) {
 	expectedNums := []int{6, 7, 8, 9}
 
 	iterator := SliceIterator(nums)
-	iterable := iter.NewIterable(iterator)
+	iterable := goiter.NewIterable(iterator)
 
 	i := 0
 	iterable.Skip(5).ForEach(func(v interface{}) {

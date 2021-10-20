@@ -1,4 +1,4 @@
-package iter
+package goiter
 
 type Iterable struct {
 	iterator Iterator

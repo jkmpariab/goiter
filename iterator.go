@@ -1,4 +1,4 @@
-package iter
+package goiter
 
 type Iterator interface {
 	Next() bool

@@ -1,3 +1,3 @@
-module github.com/jkmpariab/iter
+module github.com/jkmpariab/goiter
 
-go 1.15
+go 1.17

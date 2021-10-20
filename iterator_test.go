@@ -1,9 +1,9 @@
-package iter_test
+package goiter_test
 
 import (
 	"testing"
 
-	"github.com/jkmpariab/iter"
+	"github.com/jkmpariab/goiter"
 )
 
 func SliceIterator(slc []int) *sliceIter {
@@ -34,7 +34,7 @@ func TestForEach(t *testing.T) {
 	iterator := SliceIterator(nums)
 
 	i := 0
-	iter.ForEach(iterator, func(v interface{}) {
+	goiter.ForEach(iterator, func(v interface{}) {
 		if v.(int) != nums[i] {
 			t.Errorf("expected: %d, got: %d\n", nums[i], v.(int))
 		}
@@ -47,7 +47,7 @@ func TestCollect(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	iterator := SliceIterator(nums)
 
-	for i, v := range iter.Collect(iterator) {
+	for i, v := range goiter.Collect(iterator) {
 		if v.(int) != nums[i] {
 			t.Errorf("expected: %d, got: %d\n", nums[i], v.(int))
 		}
@@ -58,7 +58,7 @@ func TestAny(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	iterator := SliceIterator(nums)
 
-	any := iter.Any(iterator, func(v interface{}) bool {
+	any := goiter.Any(iterator, func(v interface{}) bool {
 		n := v.(int)
 		return n == 5
 	})
@@ -72,7 +72,7 @@ func TestAll(t *testing.T) {
 	nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	iterator := SliceIterator(nums)
 
-	all := iter.All(iterator, func(v interface{}) bool {
+	all := goiter.All(iterator, func(v interface{}) bool {
 		n := v.(int)
 		return n > 0 && n < 10
 	})
